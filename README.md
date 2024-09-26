@@ -23,17 +23,22 @@ To close the server, close the window:
 
 ### To run the client:
 
-Have **config.json** in the same folder as **client.py**
+There are two ways to run the client, although the launcher is easiest
+
+1) You can run `python3 launcher.py` to graphically change your config and connect to a server
+
+2) Alternatively you can modify **config.json** directly and then run `python3 client.py` To do this you must have **config.json** in the same folder as **client.py**
 **config.json** should look like this:  
 `{`  
 `    "HOST": "host IP",`  
 `    "PORT": 38491 unless specified otherwise`  
 `    "NAME": "your username"`  
-`}`  
-If **config.json** is not present in the same folder as **client.py**, it will be created.
-  
-run `python3 client.py`
+`}`
 
+  
+
+Bear in mind, If **config.json** is not present in the same folder as **client.py**, it will be automatically created.
+  
 ### To use the client:
 
 WASD to move  
