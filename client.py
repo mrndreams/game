@@ -106,13 +106,24 @@ def username(name: str):
     return name[i2+1:]
 
 
+
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--name", type=str, required=True)
-    parser.add_argument("--host", type=str, default="127.0.0.1")
-    parser.add_argument("--port", type=int, default=38491)
-    config = parser.parse_args()
+    try:
+        config = json.load(open("config.json", "rt"))
+    except FileNotFoundError:
+        with open("config.json", "wt") as f:
+            f.write('{\n    "HOST": "0.0.0.0",\n    "PORT": 38491,\n    "NAME": "Player"\n}')
+        print("config.json created. Open it and enter a host, port and username.")
+        pg.quit()
+        quit()
+
+    pg.init()
+
+    w, h = 1920, 1080
+    display = pg.display.set_mode((w, h), pg.HWACCEL | pg.NOFRAME)
+    clock = pg.time.Clock()
+    fonts = {size: pg.font.Font(None, size) for size in [32,48,64]}
 
     exit_types = ["BANNED", "KICK", "SHUTDOWN", "VERSION"]
 
@@ -129,12 +140,6 @@ if __name__ == "__main__":
     recv_t = threading.Thread(target=recieve, daemon=True)
     recv_t.start()
     thread_exc = None
-
-    pg.init()
-    w, h = 1920, 1080
-    display = pg.display.set_mode((w, h), pg.HWACCEL | pg.NOFRAME)
-    clock = pg.time.Clock()
-    fonts = {size: pg.font.Font(None, size) for size in [32,48,64]}
 
     VERSION = 1.2
     fps = 60
