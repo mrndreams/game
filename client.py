@@ -80,6 +80,7 @@ def username(name: str):
     return name[i2+1:]
 
 
+
 if __name__ == "__main__":
 
     try:
@@ -90,6 +91,14 @@ if __name__ == "__main__":
         print("config.json created. Open it and enter a host, port and username.")
         pg.quit()
         quit()
+
+    pg.init()
+
+    w, h = 1920, 1080
+    display = pg.display.set_mode((w, h), pg.HWACCEL | pg.NOFRAME)
+    clock = pg.time.Clock()
+    fonts = {size: pg.font.Font(None, size) for size in [32,48,64]}
+
     exit_types = ["BANNED", "KICK", "SHUTDOWN", "VERSION"]
 
     plr = Player(config["NAME"], [960, 540])
@@ -104,12 +113,6 @@ if __name__ == "__main__":
     recv_t = threading.Thread(target=recieve, daemon=True)
     recv_t.start()
     thread_exc = None
-
-    pg.init()
-    w, h = 1920, 1080
-    display = pg.display.set_mode((w, h), pg.HWACCEL | pg.NOFRAME)
-    clock = pg.time.Clock()
-    fonts = {size: pg.font.Font(None, size) for size in [32,48,64]}
 
     VERSION = 1.2
     fps = 60
