@@ -60,15 +60,6 @@ class Button():
         pg.draw.rect(screen, self.color, self.rect, 2)
 
 if __name__ == "__main__":
-    try:
-        config = json.load(open("config.json", "rt"))
-    except FileNotFoundError:
-        with open("config.json", "wt") as f:
-            f.write('{\n    "HOST": "0.0.0.0",\n    "PORT": "38491",\n    "NAME": "Player"\n}')
-        print("config.json created. Open it and enter a host, port and username.")
-        pg.quit()
-        quit()
-
     pg.init()
     pg.display.set_caption("Game Launcher")
 
@@ -87,9 +78,9 @@ if __name__ == "__main__":
 
     window_center = tuple(i / 2 for i in pg.display.get_window_size())
 
-    hostname_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-3, ui_width, ui_height, config["HOST"])
-    port_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-2, ui_width, ui_height, config["PORT"])
-    name_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-1, ui_width, ui_height, config["NAME"])
+    hostname_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-3, ui_width, ui_height, "")
+    port_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-2, ui_width, ui_height, "38491")
+    name_field = InputBox(window_center[0] - ui_width / 2, window_center[1] + ui_height*-1, ui_width, ui_height, "Player")
 
     join_button = Button(window_center[0] - ui_width / 2, window_center[1] + ui_height*4, ui_width, ui_height, "Join")
 
@@ -120,11 +111,4 @@ if __name__ == "__main__":
         pg.display.flip()
         clock.tick(30)
 
-    config["HOST"] = hostname_field.text
-    config["PORT"] = port_field.text
-    config["NAME"] = name_field.text 
-
-    with open("config.json", "wt") as f:
-        f.write('{\n    "HOST": "' + config["HOST"] + '",\n    "PORT": "' + config["PORT"] + '",\n    "NAME": "' + config["NAME"] + '"\n}')
-        f.close()
-    subprocess.run(["python", "client.py"])
+    subprocess.run(["python", "client.py", "--name", name_field.text, "--host", hostname_field.text, "--port", port_field.text])
